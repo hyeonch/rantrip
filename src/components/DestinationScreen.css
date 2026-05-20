@@ -1,0 +1,131 @@
+.dest-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 40px 28px 60px;
+  overflow: hidden;
+}
+
+/* 지하철 문 — 두 패널이 양쪽으로 열림 */
+.door-left,
+.door-right {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  z-index: 200;
+  animation: doorOpen 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+.door-left  { left: 0;  transform-origin: left center; }
+.door-right { right: 0; transform-origin: right center; }
+
+@keyframes doorOpen {
+  0%   { transform: scaleX(1); opacity: 1; }
+  70%  { transform: scaleX(0); opacity: 1; }
+  100% { transform: scaleX(0); opacity: 0; pointer-events: none; }
+}
+
+.door-inner-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: rgba(0, 0, 0, 0.15);
+}
+.door-left  .door-inner-line { right: 0; }
+.door-right .door-inner-line { left: 0; }
+
+.door-handle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 48px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.18);
+}
+.door-left  .door-handle { right: 12px; }
+.door-right .door-handle { left: 12px; }
+
+/* 컨텐츠 — 살짝 늦게 페이드인 */
+.dest-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  animation: destFadeIn 0.5s ease 0.55s both;
+}
+@keyframes destFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.dest-eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 16px;
+  font-family: var(--font-numeric);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+.dest-station {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+  margin-bottom: 16px;
+}
+
+.dest-line-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  margin-bottom: 48px;
+}
+
+.dest-again-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-md);
+  padding: 13px 32px;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+.dest-again-btn:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.confetti-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}

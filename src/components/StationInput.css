@@ -1,13 +1,15 @@
-.input-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.input-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-1);
 }
 
-.input-label {
-  font-size: 18px;
+.input-card-label {
+  font-size: 20px;
   font-weight: 700;
-  color: #aaa;
+  color: var(--fg-primary);
+  margin-bottom: 12px;
 }
 
 .input-wrap {
@@ -16,101 +18,99 @@
 
 .station-input {
   width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 20px;
-  font-size: 20px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 700;
-  color: var(--text);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--fg-primary);
+  background: #fff;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-
 .station-input:focus {
-  border-color: var(--accent);
+  border-color: var(--primary-600);
+  box-shadow: 0 0 0 3px var(--primary-200);
 }
-
 .station-input::placeholder {
-  color: var(--muted);
+  color: var(--fg-disabled);
   font-weight: 400;
 }
-
-.station-input--noresult {
-  border-color: #ff4f4f !important;
+.station-input--error {
+  border-color: var(--danger-600) !important;
+  box-shadow: 0 0 0 3px var(--danger-200) !important;
 }
-
 .station-input--shake {
   animation: shake 0.4s ease-out forwards;
 }
 
 .autocomplete {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   left: 0; right: 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
   list-style: none;
   overflow: hidden;
-  z-index: 10;
+  z-index: 20;
+  box-shadow: var(--shadow-2);
 }
-
 .autocomplete li {
-  padding: 14px 20px;
-  font-size: 16px;
+  padding: 11px 14px;
+  font-size: 14px;
   cursor: pointer;
+  color: var(--fg-secondary);
   transition: background 0.1s;
 }
-
-.autocomplete li:hover {
-  background: #1e1e1e;
+.autocomplete li:not(:last-child) {
+  border-bottom: 1px solid var(--border-default);
 }
-
+.autocomplete li:hover,
 .autocomplete li.active {
-  background: #282810;
-  border-left: 3px solid var(--accent);
-  padding-left: 17px;
-  color: var(--accent);
+  background: var(--primary-200);
+  color: var(--primary-700);
 }
-
 .autocomplete li mark {
   background: none;
-  color: var(--accent);
+  color: var(--primary-600);
   font-weight: 700;
 }
 
-.start-btn {
-  margin-top: 8px;
-  background: var(--accent);
-  color: #0a0a0a;
+.btn-primary {
+  width: 100%;
+  background: var(--primary-600);
+  color: #fff;
   border: none;
-  border-radius: 12px;
-  padding: 18px;
-  font-size: 17px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 700;
+  border-radius: var(--radius-md);
+  padding: 13px 20px;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+  transition: background 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
-
-.start-btn:hover:not(:disabled) {
-  opacity: 0.9;
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-700);
   transform: translateY(-1px);
 }
-
-.start-btn:disabled {
-  opacity: 0.3;
+.btn-primary:disabled {
+  background: var(--neutral-200);
+  color: var(--fg-disabled);
   cursor: not-allowed;
+  transform: none;
 }
 
 @keyframes shake {
   0%   { transform: translateX(0); }
-  15%  { transform: translateX(-7px); }
-  35%  { transform: translateX(7px); }
-  55%  { transform: translateX(-4px); }
-  75%  { transform: translateX(4px); }
-  90%  { transform: translateX(-2px); }
+  15%  { transform: translateX(-6px); }
+  35%  { transform: translateX(6px); }
+  55%  { transform: translateX(-3px); }
+  75%  { transform: translateX(3px); }
   100% { transform: translateX(0); }
 }

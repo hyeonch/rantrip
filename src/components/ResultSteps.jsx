@@ -1,34 +1,57 @@
 import './ResultSteps.css';
 
-const DIRECTION_LABEL = { up: '상행 ↑', down: '하행 ↓' };
+const DIR_LABEL = { up: '상행 ↑', down: '하행 ↓' };
 
-export default function ResultSteps({ result, departure, currentStep, isRunning, maxStops, onMaxStopsChange, onNext, onReset }) {
+function StepCard({ step, variant, delay }) {
+  const style = {
+    '--step-color': step.color,
+    animationDelay: `${delay}ms`,
+  };
+  const cls = [
+    'step-card',
+    variant === 'active' ? 'step-card--active' : '',
+    variant === 'done' ? 'step-card--done' : '',
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={cls} style={style}>
+      <span className="step-eyebrow">{step.label}</span>
+      <span className="step-value">{step.value}</span>
+      {step.sub && <span className="step-sub">{step.sub}</span>}
+      {step.badge && (
+        <div className="line-badge" style={{ background: step.color + '18', color: step.color }}>
+          <span className="line-dot" style={{ background: step.color }} />
+          {step.badge}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function ResultSteps({ result, departure, currentStep, isRunning, maxStops, onMaxStopsChange, onNext }) {
   const { lineName, lineColor, boarding, direction, directionStats, destination } = result;
 
   const steps = [
     {
       label: '호선',
       value: lineName,
-      sub: boarding.matched
-        ? null
-        : `출발역이 ${lineName}에 없어서 가장 가까운 역으로 이동`,
+      sub: boarding.matched ? null : `출발역이 ${lineName}에 없어 가장 가까운 역으로 이동`,
+      badge: boarding.name,
       color: lineColor,
     },
     {
       label: '방향',
-      value: DIRECTION_LABEL[direction],
-      sub: `${boarding.name}역 기준`,
+      value: DIR_LABEL[direction],
+      sub: `${boarding.name} 기준`,
       color: lineColor,
     },
     destination && {
       label: '목적지',
       value: destination.name,
-      sub: `${lineName} ${DIRECTION_LABEL[direction]}`,
+      sub: `${lineName} · ${DIR_LABEL[direction]}`,
       color: lineColor,
     },
   ].filter(Boolean);
-
-  const done = currentStep >= 2 && !isRunning;
 
   return (
     <div className="result-section">
@@ -36,55 +59,55 @@ export default function ResultSteps({ result, departure, currentStep, isRunning,
         <span className="departure-label">출발</span>
         <span className="departure-name">{departure}</span>
       </div>
+
       <div className="steps">
-        {steps.slice(0, currentStep + 1).map((step, i) => (
-          <div
-            key={i}
-            className={`step-card ${i === currentStep ? 'step-card--active' : 'step-card--done'}`}
-            style={{ '--line-color': step.color }}
-          >
-            <span className="step-label">{step.label}</span>
-            <span className="step-value">{step.value}</span>
-            {step.sub && <span className="step-sub">{step.sub}</span>}
-          </div>
-        ))}
+        {steps.slice(0, currentStep + 1).map((step, i) => {
+          const variant = i === currentStep && isRunning ? 'active' : 'done';
+          return <StepCard key={i} step={step} variant={variant} delay={i * 40} />;
+        })}
       </div>
 
-      <div className="result-actions">
-        {isRunning && currentStep === 1 && (
-          <div className="direction-extras">
-            <div className="direction-counts">
-              <span>상행 최대 <strong>{directionStats.upCount}</strong>정거장</span>
-              <span className="divider">·</span>
-              <span>하행 최대 <strong>{directionStats.downCount}</strong>정거장</span>
+      {isRunning && currentStep === 1 && (
+        <div className="direction-extras">
+          <div className="direction-counts">
+            <div className="direction-stat">
+              <span className="direction-stat-label">상행 최대</span>
+              <span className="direction-stat-value">
+                {directionStats.upCount} <span>정거장</span>
+              </span>
             </div>
-            <div className="maxstops-row">
-              <label className="maxstops-label" htmlFor="maxstops">최대 정거장 수</label>
-              <input
-                id="maxstops"
-                className="maxstops-input"
-                type="number"
-                min="1"
-                max={direction === 'up' ? directionStats.upCount : directionStats.downCount}
-                value={maxStops}
-                onChange={(e) => onMaxStopsChange(e.target.value)}
-                placeholder="제한 없음"
-              />
+            <div className="direction-divider" />
+            <div className="direction-stat">
+              <span className="direction-stat-label">하행 최대</span>
+              <span className="direction-stat-value">
+                {directionStats.downCount} <span>정거장</span>
+              </span>
             </div>
           </div>
-        )}
-        {isRunning && (
-          <button className="next-btn" onClick={onNext}>
-            {currentStep === 0 ? '방향 뽑기 →' : currentStep === 1 ? '목적지 뽑기 →' : ''}
-          </button>
-        )}
-        {done && (
-          <>
-            <div className="final-msg">🎉 오늘의 목적지는 <strong>{destination.name}</strong>!</div>
-            <button className="reset-btn" onClick={onReset}>다시 뽑기</button>
-          </>
-        )}
-      </div>
+          <div className="maxstops-row">
+            <label className="maxstops-label" htmlFor="maxstops">최대 정거장</label>
+            <input
+              id="maxstops"
+              className="maxstops-input"
+              type="number"
+              min="1"
+              max={direction === 'up' ? directionStats.upCount : directionStats.downCount}
+              value={maxStops}
+              onChange={(e) => onMaxStopsChange(e.target.value)}
+              placeholder="제한 없음"
+            />
+          </div>
+        </div>
+      )}
+
+      {isRunning && (
+        <button className="btn-primary" onClick={onNext}>
+          {currentStep === 0 ? '방향 뽑기' : '목적지 뽑기'}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: 2 }}>
+            <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

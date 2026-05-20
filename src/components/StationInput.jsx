@@ -51,10 +51,9 @@ function MatchText({ text, query }) {
 export default function StationInput({ value, onChange, onStart }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [trackedValue, setTrackedValue] = useState(value);
-  const inputRef = useRef(null);
+  const [shake, setShake] = useState(false);
   const prevNoMatchRef = useRef(false);
 
-  // Reset to first item whenever search value changes (runs during render, no extra paint)
   if (trackedValue !== value) {
     setTrackedValue(value);
     setActiveIdx(0);
@@ -64,16 +63,9 @@ export default function StationInput({ value, onChange, onStart }) {
   const showDropdown = filtered.length > 0 && filtered[0] !== value;
   const noMatch = value.trim() !== '' && filtered.length === 0;
 
-  function triggerShake() {
-    const el = inputRef.current;
-    if (!el) return;
-    el.classList.remove('station-input--shake');
-    void el.offsetWidth;
-    el.classList.add('station-input--shake');
-  }
-
   function handleSelect(name) {
     onChange(name);
+    setActiveIdx(0);
   }
 
   function handleChange(e) {
@@ -81,8 +73,16 @@ export default function StationInput({ value, onChange, onStart }) {
     onChange(newVal);
 
     const hasNoMatch = newVal.trim() !== '' && getMatches(newVal).length === 0;
-    if (hasNoMatch && !prevNoMatchRef.current) triggerShake();
+    if (hasNoMatch && !prevNoMatchRef.current) {
+      setShake(false);
+      requestAnimationFrame(() => setShake(true));
+    }
     prevNoMatchRef.current = hasNoMatch;
+  }
+
+  function triggerShake() {
+    setShake(false);
+    requestAnimationFrame(() => setShake(true));
   }
 
   function handleTryStart(stationName) {
@@ -112,39 +112,44 @@ export default function StationInput({ value, onChange, onStart }) {
   }
 
   return (
-    <div className="input-section">
-      <p className="input-label">지금 어디 있어?</p>
-      <div className="input-wrap">
-        <input
-          ref={inputRef}
-          className={`station-input${noMatch ? ' station-input--noresult' : ''}`}
-          type="text"
-          placeholder="출발역 입력"
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKey}
-          autoComplete="off"
-        />
-        {showDropdown && (
-          <ul className="autocomplete">
-            {filtered.map((name, i) => (
-              <li
-                key={name}
-                className={i === activeIdx ? 'active' : ''}
-                onMouseDown={(e) => { e.preventDefault(); handleSelect(name); }}
-              >
-                <MatchText text={name} query={value} />
-              </li>
-            ))}
-          </ul>
-        )}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div className="input-card">
+        <p className="input-card-label">지금 어디 있어?</p>
+        <div className="input-wrap">
+          <input
+            className={`station-input${noMatch ? ' station-input--error' : ''}${shake ? ' station-input--shake' : ''}`}
+            onAnimationEnd={() => setShake(false)}
+            type="text"
+            placeholder="출발역 입력"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKey}
+            autoComplete="off"
+          />
+          {showDropdown && (
+            <ul className="autocomplete">
+              {filtered.map((name, i) => (
+                <li
+                  key={name}
+                  className={i === activeIdx ? 'active' : ''}
+                  onMouseDown={(e) => { e.preventDefault(); handleSelect(name); }}
+                >
+                  <MatchText text={name} query={value} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
       <button
-        className="start-btn"
+        className="btn-primary"
         onClick={() => handleTryStart(showDropdown ? filtered[activeIdx] : undefined)}
         disabled={!value.trim()}
       >
-        운명에 맡기기 🎲
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zM6 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
+        </svg>
+        운명에 맡기기
       </button>
     </div>
   );

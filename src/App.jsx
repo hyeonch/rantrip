@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import StationInput from './components/StationInput';
 import ResultSteps from './components/ResultSteps';
+import DestinationScreen from './components/DestinationScreen';
 import {
   pickRandomLine,
   pickRandomDirection,
@@ -71,8 +72,8 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <span className="header-label">RANDOM SUBWAY TRIP</span>
-        <h1 className="app-title">어디로<br />떠날까</h1>
+        <span className="header-eyebrow">RANDOM SUBWAY TRIP</span>
+        <h1 className="header-title">어디로<br /><span>떠날까</span></h1>
       </header>
       <main className="app-main">
         {currentStep === -1 ? (
@@ -94,6 +95,13 @@ export default function App() {
           />
         )}
       </main>
+      {result?.destination && !isRunning && (
+        <DestinationScreen
+          destination={result.destination}
+          result={result}
+          onReset={handleReset}
+        />
+      )}
     </div>
   );
 }

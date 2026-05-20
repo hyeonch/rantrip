@@ -1,57 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Mono:wght@700&display=swap');
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-  --bg: #0a0a0a;
-  --surface: #141414;
-  --border: #2a2a2a;
-  --text: #f0f0f0;
-  --muted: #666;
-  --accent: #e8ff47;
-}
-
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Noto Sans KR', sans-serif;
+  background: #F0F2F4;
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  -webkit-font-smoothing: antialiased;
 }
 
 .app {
+  position: relative;
   width: 100%;
-  max-width: 420px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0 24px 48px;
+  background: var(--bg-surface);
+  overflow: hidden;
 }
 
 .app-header {
-  padding-top: 56px;
-  margin-bottom: 48px;
+  padding: 80px clamp(20px, 5vw, 60px) 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
 }
 
-.header-label {
-  font-family: 'Space Mono', monospace;
+.header-eyebrow {
   font-size: 10px;
-  letter-spacing: 0.2em;
-  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-600);
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
+  font-family: var(--font-numeric);
 }
 
-.app-title {
-  font-size: 52px;
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+.header-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 1.0;
+  letter-spacing: -0.05em;
+  color: var(--fg-primary);
+}
+
+.header-title span {
+  color: var(--primary-600);
 }
 
 .app-main {
   flex: 1;
+  padding: 24px clamp(16px, 4vw, 48px);
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
 }
