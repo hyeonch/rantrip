@@ -3,8 +3,6 @@
 body {
   background: #F0F2F4;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
   -webkit-font-smoothing: antialiased;
 }
 
