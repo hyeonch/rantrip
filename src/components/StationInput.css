@@ -1,0 +1,116 @@
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #aaa;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.station-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  font-size: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.station-input:focus {
+  border-color: var(--accent);
+}
+
+.station-input::placeholder {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.station-input--noresult {
+  border-color: #ff4f4f !important;
+}
+
+.station-input--shake {
+  animation: shake 0.4s ease-out forwards;
+}
+
+.autocomplete {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  list-style: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.autocomplete li {
+  padding: 14px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.autocomplete li:hover {
+  background: #1e1e1e;
+}
+
+.autocomplete li.active {
+  background: #282810;
+  border-left: 3px solid var(--accent);
+  padding-left: 17px;
+  color: var(--accent);
+}
+
+.autocomplete li mark {
+  background: none;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.start-btn {
+  margin-top: 8px;
+  background: var(--accent);
+  color: #0a0a0a;
+  border: none;
+  border-radius: 12px;
+  padding: 18px;
+  font-size: 17px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.start-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.start-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-7px); }
+  35%  { transform: translateX(7px); }
+  55%  { transform: translateX(-4px); }
+  75%  { transform: translateX(4px); }
+  90%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}

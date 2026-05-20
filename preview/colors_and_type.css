@@ -1,0 +1,287 @@
+/**
+ * TapTap Design System — Colors & Typography
+ * Source: TapTap Design System (Figma Community)
+ * Primary font stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+ *   "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+ *   "Microsoft YaHei", SimSun, sans-serif
+ *
+ * Brand fonts:
+ *   Pretendard ExtraBold (800) — uploaded: fonts/Pretendard-ExtraBold.otf
+ *   Note: Only ExtraBold weight provided. Used for display headings.
+ *   ⚠️  Remaining weights fall back to system PingFang / sans-serif.
+ *   To complete the family, upload additional Pretendard weights.
+ */
+
+/* ─────────────────────────────────────────────
+   BRAND FONTS
+───────────────────────────────────────────── */
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/Pretendard-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────────
+   COLOR TOKENS
+───────────────────────────────────────────── */
+:root {
+
+  /* ── Black & White ── */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  /* ── Neutral Scale ── */
+  --neutral-700: #1F1F1F;   /* darkest text */
+  --neutral-600: #4B4B4B;   /* primary text / icon */
+  --neutral-500: #8E8E8E;   /* secondary text */
+  --neutral-400: #CACACA;
+  --neutral-300: #E1E1E1;
+  --neutral-200: #EEEEEE;
+  --neutral-100: #F5F5F5;
+  --neutral-50:  #FAFAFA;
+
+  /* ── Primary (Teal) ── */
+  --primary-700: #00ABB6;
+  --primary-600: #15C5CE;   /* brand primary */
+  --primary-500: #47CFD6;
+  --primary-400: #7DDDE1;
+  --primary-300: #B0EBEC;
+  --primary-200: #DFF7F7;
+  --primary-100: #EEFCFC;
+  --primary-50:  #F9FFFF;
+
+  /* ── Auxiliary (Orange/Coral) ── */
+  --auxiliary-700: #FE632F;
+  --auxiliary-600: #FF8156;   /* brand auxiliary */
+  --auxiliary-500: #FFA882;
+  --auxiliary-400: #FFC8B6;
+  --auxiliary-300: #FFE1D6;
+  --auxiliary-200: #FFF2EE;
+  --auxiliary-100: #FFF6F3;
+  --auxiliary-50:  #FFFCFC;
+
+  /* ── Success (Green) ── */
+  --success-700: #0DA070;
+  --success-600: #1DBF8A;
+  --success-500: #48CFD6;
+  --success-400: #80D9B8;
+  --success-300: #A8E8D4;
+  --success-200: #D0F4E8;
+  --success-100: #E8FAF3;
+  --success-50:  #F5FDF9;
+
+  /* ── Danger (Red) ── */
+  --danger-700: #EC2D30;
+  --danger-600: #F64C4C;   /* brand danger */
+  --danger-500: #F87878;
+  --danger-400: #F49898;
+  --danger-300: #FFCCD2;
+  --danger-200: #FFEBEE;
+  --danger-100: #FEF2F2;
+  --danger-50:  #FFFBFB;
+
+  /* ── Warning (Amber) ── */
+  --warning-700: #FE9B0E;
+  --warning-600: #FFAD0D;
+  --warning-500: #FFC043;
+  --warning-400: #FFD07A;
+  --warning-300: #FFE0A6;
+  --warning-200: #FFEFD0;
+  --warning-100: #FFF7E5;
+  --warning-50:  #FFFCF0;
+
+  /* ── Semantic Aliases ── */
+  --color-brand:           var(--primary-600);
+  --color-brand-dark:      var(--primary-700);
+  --color-brand-light:     var(--primary-200);
+  --color-brand-bg:        var(--primary-50);
+
+  --color-accent:          var(--auxiliary-600);
+  --color-accent-dark:     var(--auxiliary-700);
+
+  --color-success:         var(--success-600);
+  --color-success-bg:      var(--success-50);
+  --color-danger:          var(--danger-600);
+  --color-danger-bg:       var(--danger-50);
+  --color-warning:         var(--warning-600);
+  --color-warning-bg:      var(--warning-50);
+
+  /* ── Text Colors ── */
+  --fg-primary:   var(--neutral-700);   /* #1F1F1F — headings, primary text */
+  --fg-secondary: var(--neutral-600);   /* #4B4B4B — body text */
+  --fg-tertiary:  var(--neutral-500);   /* #8E8E8E — secondary / meta */
+  --fg-disabled:  var(--neutral-400);   /* #CACACA */
+  --fg-on-brand:  var(--color-white);
+
+  /* ── Background Colors ── */
+  --bg-page:      var(--color-white);
+  --bg-surface:   var(--neutral-50);    /* #FAFAFA */
+  --bg-elevated:  var(--color-white);
+  --bg-subtle:    var(--neutral-100);   /* #F5F5F5 */
+
+  /* ── Border Colors ── */
+  --border-default: var(--neutral-200); /* #EEEEEE */
+  --border-strong:  var(--neutral-300); /* #E1E1E1 */
+  --border-focus:   var(--primary-600);
+
+  /* ── Interactive ── */
+  --interactive-primary:        var(--primary-600);
+  --interactive-primary-hover:  var(--primary-700);
+  --interactive-primary-press:  var(--primary-700);
+  --interactive-danger:         var(--danger-600);
+  --interactive-danger-hover:   var(--danger-700);
+
+
+/* ─────────────────────────────────────────────
+   TYPOGRAPHY TOKENS
+───────────────────────────────────────────── */
+
+  /* ── Font Families ── */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Helvetica, "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  /* Pretendard ExtraBold (800) available; other weights fall back to PingFang HK */
+  --font-display: "Pretendard", "PingFang HK", "PingFang SC", var(--font-sans);
+  --font-mono:    Consolas, "Courier New", monospace;
+  --font-numeric: "Helvetica Neue", "Roboto", var(--font-sans);
+
+  /* ── Font Weights ── */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+
+  /* ── Type Scale ── */
+  --text-h1:        64px;  /* line-height: 1.5  — PingFang HK Bold, page titles */
+  --lh-h1:          1.5;
+
+  --text-h2:        30px;  /* line-height: 38px — section headers */
+  --lh-h2:          38px;
+
+  --text-h3:        24px;  /* line-height: 32px */
+  --lh-h3:          32px;
+
+  --text-h4:        20px;  /* line-height: 28px */
+  --lh-h4:          28px;
+
+  --text-subtitle:  16px;  /* line-height: 24px */
+  --lh-subtitle:    24px;
+
+  --text-body:      14px;  /* line-height: 22px — primary body */
+  --lh-body:        22px;
+
+  --text-caption:   12px;  /* line-height: 18px — meta, labels */
+  --lh-caption:     18px;
+
+  /* ── Spacing Scale (8px base) ── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-24:  96px;
+
+  /* ── Border Radius ── */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+  /* ── Elevation / Shadows ── */
+  --shadow-1: 0px 1px 1px 0px rgba(0,0,0,0.02),
+              0px 2px 4px 0px rgba(0,0,0,0.04);  /* Elevation 1 — cards */
+  --shadow-2: 0px 1px 4px 0px rgba(0,0,0,0.04),
+              0px 4px 10px 0px rgba(0,0,0,0.08); /* Elevation 2 — dropdowns */
+  --shadow-3: 0px 2px 20px 0px rgba(0,0,0,0.04),
+              0px 8px 32px 0px rgba(0,0,0,0.08); /* Elevation 3 — modals */
+  --shadow-4: 0px 8px 20px 0px rgba(0,0,0,0.06),
+              0px 24px 60px 0px rgba(0,0,0,0.12);/* Elevation 4 — overlays */
+}
+
+/* ─────────────────────────────────────────────
+   SEMANTIC ELEMENT STYLES
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  font-size:   var(--text-body);
+  line-height: var(--lh-body);
+  color:       var(--fg-secondary);
+  background:  var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-family:   var(--font-display);
+  font-size:     var(--text-h1);
+  line-height:   var(--lh-h1);
+  font-weight:   var(--weight-bold);
+  color:         var(--fg-primary);
+  margin: 0;
+}
+
+h2 {
+  font-family:   var(--font-sans);
+  font-size:     var(--text-h2);
+  line-height:   var(--lh-h2);
+  font-weight:   var(--weight-medium);
+  color:         var(--fg-primary);
+  margin: 0;
+}
+
+h3 {
+  font-family:   var(--font-sans);
+  font-size:     var(--text-h3);
+  line-height:   var(--lh-h3);
+  font-weight:   var(--weight-bold);
+  color:         var(--fg-primary);
+  margin: 0;
+}
+
+h4 {
+  font-family:   var(--font-sans);
+  font-size:     var(--text-h4);
+  line-height:   var(--lh-h4);
+  font-weight:   var(--weight-medium);
+  color:         var(--fg-primary);
+  margin: 0;
+}
+
+p {
+  font-family:  var(--font-sans);
+  font-size:    var(--text-body);
+  line-height:  var(--lh-body);
+  font-weight:  var(--weight-regular);
+  color:        var(--fg-secondary);
+  margin: 0;
+}
+
+small, .caption {
+  font-family:  var(--font-sans);
+  font-size:    var(--text-caption);
+  line-height:  var(--lh-caption);
+  font-weight:  var(--weight-regular);
+  color:        var(--fg-tertiary);
+}
+
+code, pre {
+  font-family:  var(--font-mono);
+  font-size:    var(--text-body);
+}
+
+a {
+  color:           var(--color-brand);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-brand-dark);
+}
