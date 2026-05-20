@@ -5,24 +5,32 @@
 }
 
 .departure-tag {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-1);
+  border: 1.5px solid var(--border-default);
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 2px;
+  flex-direction: column;
+  gap: 4px;
+  animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .departure-label {
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--fg-tertiary);
   font-family: var(--font-numeric);
 }
 
 .departure-name {
-  font-size: 14px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: var(--fg-primary);
 }
 
