@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { getAllStationNames } from '../utils/subway';
 import './StationInput.css';
 
@@ -52,7 +52,6 @@ export default function StationInput({ value, onChange, onStart }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [trackedValue, setTrackedValue] = useState(value);
   const [shake, setShake] = useState(false);
-  const prevNoMatchRef = useRef(false);
 
   if (trackedValue !== value) {
     setTrackedValue(value);
@@ -60,7 +59,7 @@ export default function StationInput({ value, onChange, onStart }) {
   }
 
   const filtered = getMatches(value);
-  const showDropdown = filtered.length > 0 && filtered[0] !== value;
+  const showDropdown = filtered.length > 0;
   const noMatch = value.trim() !== '' && filtered.length === 0;
 
   function handleSelect(name) {
@@ -69,15 +68,7 @@ export default function StationInput({ value, onChange, onStart }) {
   }
 
   function handleChange(e) {
-    const newVal = e.target.value;
-    onChange(newVal);
-
-    const hasNoMatch = newVal.trim() !== '' && getMatches(newVal).length === 0;
-    if (hasNoMatch && !prevNoMatchRef.current) {
-      setShake(false);
-      requestAnimationFrame(() => setShake(true));
-    }
-    prevNoMatchRef.current = hasNoMatch;
+    onChange(e.target.value);
   }
 
   function triggerShake() {
