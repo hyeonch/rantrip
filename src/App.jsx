@@ -53,11 +53,10 @@ export default function App() {
         maxStops ? parseInt(maxStops, 10) : null,
       );
       setResult((r) => ({ ...r, destination: dest }));
-    }
-    if (currentStep < 2) {
-      setCurrentStep((prev) => prev + 1);
-    } else {
+      setCurrentStep(2);
       setIsRunning(false);
+    } else {
+      setCurrentStep((prev) => prev + 1);
     }
   }
 
