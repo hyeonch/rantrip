@@ -69,6 +69,14 @@ function ConfettiCanvas({ color }) {
   return <canvas ref={canvasRef} className="confetti-canvas" />;
 }
 
+function destStationSize(name) {
+  const len = name.length;
+  if (len <= 4) return '64px';
+  if (len <= 6) return '52px';
+  if (len <= 8) return '40px';
+  return '32px';
+}
+
 export default function DestinationScreen({ destination, result, onReset }) {
   const { lineName, lineColor, direction } = result;
 
@@ -87,7 +95,7 @@ export default function DestinationScreen({ destination, result, onReset }) {
 
       <div className="dest-content">
         <p className="dest-eyebrow">오늘의 목적지</p>
-        <h1 className="dest-station">{destination.name}</h1>
+        <h1 className="dest-station" style={{ fontSize: destStationSize(destination.name), whiteSpace: 'nowrap' }}>{destination.name}</h1>
         <div className="dest-line-badge">
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff', display: 'inline-block' }} />
           {lineName} · {DIR_LABEL[direction]}

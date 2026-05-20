@@ -2,6 +2,13 @@ import './ResultSteps.css';
 
 const DIR_LABEL = { up: '상행 ↑', down: '하행 ↓' };
 
+function stepValueSize(text) {
+  const len = text.length;
+  if (len <= 4) return '30px';
+  if (len <= 6) return '24px';
+  return '20px';
+}
+
 function StepCard({ step, variant, delay }) {
   const style = {
     '--step-color': step.color,
@@ -16,7 +23,7 @@ function StepCard({ step, variant, delay }) {
   return (
     <div className={cls} style={style}>
       <span className="step-eyebrow">{step.label}</span>
-      <span className="step-value">{step.value}</span>
+      <span className="step-value" style={{ fontSize: stepValueSize(step.value), whiteSpace: 'nowrap' }}>{step.value}</span>
       {step.sub && <span className="step-sub">{step.sub}</span>}
       {step.badge && (
         <div className="line-badge" style={{ background: step.color + '18', color: step.color }}>
