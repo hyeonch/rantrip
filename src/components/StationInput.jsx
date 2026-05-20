@@ -52,6 +52,7 @@ export default function StationInput({ value, onChange, onStart }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [trackedValue, setTrackedValue] = useState(value);
   const [shake, setShake] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   if (trackedValue !== value) {
     setTrackedValue(value);
@@ -59,16 +60,18 @@ export default function StationInput({ value, onChange, onStart }) {
   }
 
   const filtered = getMatches(value);
-  const showDropdown = filtered.length > 0;
+  const showDropdown = filtered.length > 0 && !dismissed;
   const noMatch = value.trim() !== '' && filtered.length === 0;
 
   function handleSelect(name) {
     onChange(name);
     setActiveIdx(0);
+    setDismissed(true);
   }
 
   function handleChange(e) {
     onChange(e.target.value);
+    setDismissed(false);
   }
 
   function triggerShake() {
@@ -115,6 +118,8 @@ export default function StationInput({ value, onChange, onStart }) {
             value={value}
             onChange={handleChange}
             onKeyDown={handleKey}
+            onBlur={() => setDismissed(true)}
+            onFocus={() => setDismissed(false)}
             autoComplete="off"
           />
           {showDropdown && (
