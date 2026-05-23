@@ -74,7 +74,7 @@ Custom API implementation
 
 ### 3. Supabase 클라이언트 위치 결정
 
-- [ ] `src/lib/supabaseClient.js` 생성 여부 결정
+- [ ] `src/lib/supabaseClient.ts` 생성 여부 결정
 - [ ] Supabase SDK 초기화 코드는 한 파일에만 둔다
 - [ ] 컴포넌트에서 `supabaseClient`를 직접 import하지 않는 규칙 명시
 
@@ -114,16 +114,16 @@ deleteTripPhoto(photoId)
 ```text
 src/
   lib/
-    supabaseClient.js
+    supabaseClient.ts
   services/
-    authService.js
-    tripService.js
-    photoService.js
+    authService.ts
+    tripService.ts
+    photoService.ts
   repositories/
     supabase/
-      supabaseAuthRepository.js
-      supabaseTripRepository.js
-      supabasePhotoRepository.js
+      supabaseAuthRepository.ts
+      supabaseTripRepository.ts
+      supabasePhotoRepository.ts
 ```
 
 ### 6. 데이터 모델 초안 확정
