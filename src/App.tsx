@@ -10,16 +10,17 @@ import {
   getDirectionStats,
   getLineInfo,
 } from './utils/subway';
+import type { TripResult } from './types/subway';
 import './App.css';
 
 export default function App() {
   const [departure, setDeparture] = useState('');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<TripResult | null>(null);
   const [currentStep, setCurrentStep] = useState(-1);
   const [isRunning, setIsRunning] = useState(false);
   const [maxStops, setMaxStops] = useState('');
 
-  function handleStart(stationName) {
+  function handleStart(stationName?: string) {
     const dep = stationName ?? departure;
     if (!dep.trim()) return;
 
@@ -46,6 +47,8 @@ export default function App() {
   }
 
   function handleNextStep() {
+    if (!result) return;
+
     if (currentStep === 1) {
       const dest = pickDestination(
         result.lineId,
@@ -53,7 +56,7 @@ export default function App() {
         result.direction,
         maxStops ? parseInt(maxStops, 10) : null,
       );
-      setResult((r) => ({ ...r, destination: dest }));
+      setResult((r) => r ? ({ ...r, destination: dest }) : r);
       setCurrentStep(2);
       setIsRunning(false);
     } else {
@@ -83,16 +86,17 @@ export default function App() {
             onStart={handleStart}
           />
         ) : (
-          <ResultSteps
-            result={result}
-            departure={departure}
-            currentStep={currentStep}
-            isRunning={isRunning}
-            maxStops={maxStops}
-            onMaxStopsChange={setMaxStops}
-            onNext={handleNextStep}
-            onReset={handleReset}
-          />
+          result && (
+            <ResultSteps
+              result={result}
+              departure={departure}
+              currentStep={currentStep}
+              isRunning={isRunning}
+              maxStops={maxStops}
+              onMaxStopsChange={setMaxStops}
+              onNext={handleNextStep}
+            />
+          )
         )}
       </main>
       {result?.destination && !isRunning && (
