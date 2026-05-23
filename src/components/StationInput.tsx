@@ -2,19 +2,30 @@ import { useState } from 'react';
 import { getAllStationNames } from '../utils/subway';
 import './StationInput.css';
 
+type StationInputProps = {
+  value: string;
+  onChange: (value: string) => void;
+  onStart: (stationName?: string) => void;
+};
+
+type MatchTextProps = {
+  text: string;
+  query: string;
+};
+
 const ALL_STATIONS = getAllStationNames();
 
 const CHOSUNG = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 const JAMO_SET = new Set('ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ');
 
-function extractChosung(str) {
+function extractChosung(str: string): string {
   return [...str].map(ch => {
     const code = ch.charCodeAt(0);
     return (code >= 0xAC00 && code <= 0xD7A3) ? CHOSUNG[(code - 0xAC00) / 588 | 0] : ch;
   }).join('');
 }
 
-function getMatches(query) {
+function getMatches(query: string): string[] {
   if (!query) return [];
   const q = query.replace(/역$/, '');
   if (!q) return [];
@@ -34,7 +45,7 @@ function getMatches(query) {
     .slice(0, 6);
 }
 
-function MatchText({ text, query }) {
+function MatchText({ text, query }: MatchTextProps) {
   const q = query.replace(/역$/, '');
   if (!q || [...q].every(ch => JAMO_SET.has(ch))) return <>{text}</>;
   const idx = text.indexOf(q);
@@ -48,7 +59,7 @@ function MatchText({ text, query }) {
   );
 }
 
-export default function StationInput({ value, onChange, onStart }) {
+export default function StationInput({ value, onChange, onStart }: StationInputProps) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [trackedValue, setTrackedValue] = useState(value);
   const [shake, setShake] = useState(false);
@@ -63,13 +74,13 @@ export default function StationInput({ value, onChange, onStart }) {
   const showDropdown = filtered.length > 0 && !dismissed;
   const noMatch = value.trim() !== '' && filtered.length === 0;
 
-  function handleSelect(name) {
+  function handleSelect(name: string) {
     onChange(name);
     setActiveIdx(0);
     setDismissed(true);
   }
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     onChange(e.target.value);
     setDismissed(false);
   }
@@ -79,7 +90,7 @@ export default function StationInput({ value, onChange, onStart }) {
     requestAnimationFrame(() => setShake(true));
   }
 
-  function handleTryStart(stationName) {
+  function handleTryStart(stationName?: string) {
     if (noMatch) {
       triggerShake();
       return;
@@ -87,7 +98,7 @@ export default function StationInput({ value, onChange, onStart }) {
     onStart(stationName);
   }
 
-  function handleKey(e) {
+  function handleKey(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!showDropdown) {
       if (e.key === 'Enter') handleTryStart();
       return;

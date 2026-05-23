@@ -1,16 +1,46 @@
+import type { CSSProperties } from 'react';
+import type { Direction, TripResult } from '../types/subway';
 import './ResultSteps.css';
 
-const DIR_LABEL = { up: '상행 ↑', down: '하행 ↓' };
+const DIR_LABEL: Record<Direction, string> = { up: '상행 ↑', down: '하행 ↓' };
 
-function stepValueSize(text) {
+type Step = {
+  label: string;
+  value: string;
+  sub?: string | null;
+  badge?: string;
+  color: string;
+};
+
+type StepCardProps = {
+  step: Step;
+  variant: 'active' | 'done';
+  delay: number;
+};
+
+type ResultStepsProps = {
+  result: TripResult;
+  departure: string;
+  currentStep: number;
+  isRunning: boolean;
+  maxStops: string;
+  onMaxStopsChange: (value: string) => void;
+  onNext: () => void;
+};
+
+type StepCardStyle = CSSProperties & {
+  '--step-color': string;
+};
+
+function stepValueSize(text: string): string {
   const len = text.length;
   if (len <= 4) return '30px';
   if (len <= 6) return '24px';
   return '20px';
 }
 
-function StepCard({ step, variant, delay }) {
-  const style = {
+function StepCard({ step, variant, delay }: StepCardProps) {
+  const style: StepCardStyle = {
     '--step-color': step.color,
     animationDelay: `${delay}ms`,
   };
@@ -35,10 +65,10 @@ function StepCard({ step, variant, delay }) {
   );
 }
 
-export default function ResultSteps({ result, departure, currentStep, isRunning, maxStops, onMaxStopsChange, onNext }) {
+export default function ResultSteps({ result, departure, currentStep, isRunning, maxStops, onMaxStopsChange, onNext }: ResultStepsProps) {
   const { lineName, lineColor, boarding, direction, directionStats, destination } = result;
 
-  const steps = [
+  const steps: Array<Step | null> = [
     {
       label: '호선',
       value: lineName,
@@ -58,7 +88,8 @@ export default function ResultSteps({ result, departure, currentStep, isRunning,
       sub: `${lineName} · ${DIR_LABEL[direction]}`,
       color: lineColor,
     },
-  ].filter(Boolean);
+  ];
+  const visibleSteps = steps.filter((step): step is Step => Boolean(step));
 
   return (
     <div className="result-section">
@@ -68,7 +99,7 @@ export default function ResultSteps({ result, departure, currentStep, isRunning,
       </div>
 
       <div className="steps">
-        {steps.slice(0, currentStep + 1).map((step, i) => {
+        {visibleSteps.slice(0, currentStep + 1).map((step, i) => {
           const variant = i === currentStep && isRunning ? 'active' : 'done';
           return <StepCard key={i} step={step} variant={variant} delay={i * 40} />;
         })}

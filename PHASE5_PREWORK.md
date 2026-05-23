@@ -52,11 +52,10 @@ Custom API implementation
 
 ### 0. TypeScript 전환
 
-- [ ] 기존 React + Vite 프로젝트를 TypeScript 기반으로 전환
-- [ ] `Station`, `Line`, `Direction` 타입 정의
-- [ ] `Trip`, `TripPhoto`, `TripVisibility` 타입 초안 정의
-- [ ] Supabase 서비스/Repository 설계 전에 타입 경계를 먼저 만든다
-- [ ] 전환 후 `npm run build` 통과 확인
+- [x] 기존 React + Vite 프로젝트를 TypeScript 기반으로 전환
+- [x] `Station`, `Line`, `Direction` 타입 정의
+- [x] Supabase 서비스/Repository 설계 전에 타입 경계를 먼저 만든다
+- [x] 전환 후 `npm run build` 통과 확인
 
 ### 1. 백엔드 후보 결정
 

@@ -1,19 +1,46 @@
 import { useEffect, useRef } from 'react';
+import type { Direction, Station, TripResult } from '../types/subway';
 import './DestinationScreen.css';
 
-const DIR_LABEL = { up: '상행 ↑', down: '하행 ↓' };
+const DIR_LABEL: Record<Direction, string> = { up: '상행 ↑', down: '하행 ↓' };
 
-function ConfettiCanvas({ color }) {
-  const canvasRef = useRef(null);
+type ConfettiCanvasProps = {
+  color: string;
+};
+
+type ConfettiPiece = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rot: number;
+  rotV: number;
+  vx: number;
+  vy: number;
+  color: string;
+};
+
+type DestinationScreenProps = {
+  destination: Station;
+  result: TripResult;
+  onReset: () => void;
+};
+
+function ConfettiCanvas({ color }: ConfettiCanvasProps) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const drawCtx = ctx;
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+    const canvasWidth = () => canvas.width;
+    const canvasHeight = () => canvas.height;
 
-    function hexToRgb(hex) {
+    function hexToRgb(hex: string): [number, number, number] {
       const r = parseInt(hex.slice(1, 3), 16);
       const g = parseInt(hex.slice(3, 5), 16);
       const b = parseInt(hex.slice(5, 7), 16);
@@ -28,8 +55,8 @@ function ConfettiCanvas({ color }) {
       'rgba(255,255,255,0.4)',
     ];
 
-    const pieces = Array.from({ length: 80 }, () => ({
-      x: Math.random() * canvas.width,
+    const pieces: ConfettiPiece[] = Array.from({ length: 80 }, () => ({
+      x: Math.random() * canvasWidth(),
       y: -10 - Math.random() * 200,
       w: 6 + Math.random() * 8,
       h: 3 + Math.random() * 5,
@@ -40,23 +67,23 @@ function ConfettiCanvas({ color }) {
       color: palette[Math.floor(Math.random() * palette.length)],
     }));
 
-    let raf;
+    let raf: number;
     function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawCtx.clearRect(0, 0, canvasWidth(), canvasHeight());
       pieces.forEach(p => {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-        ctx.restore();
+        drawCtx.save();
+        drawCtx.translate(p.x, p.y);
+        drawCtx.rotate(p.rot);
+        drawCtx.fillStyle = p.color;
+        drawCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        drawCtx.restore();
         p.x += p.vx;
         p.y += p.vy;
         p.rot += p.rotV;
         p.vy += 0.04;
-        if (p.y > canvas.height + 20) {
+        if (p.y > canvasHeight() + 20) {
           p.y = -10;
-          p.x = Math.random() * canvas.width;
+          p.x = Math.random() * canvasWidth();
           p.vy = 2.5 + Math.random() * 3.5;
         }
       });
@@ -69,7 +96,7 @@ function ConfettiCanvas({ color }) {
   return <canvas ref={canvasRef} className="confetti-canvas" />;
 }
 
-function destStationSize(name) {
+function destStationSize(name: string): string {
   const len = name.length;
   if (len <= 4) return '64px';
   if (len <= 6) return '52px';
@@ -77,7 +104,7 @@ function destStationSize(name) {
   return '32px';
 }
 
-export default function DestinationScreen({ destination, result, onReset }) {
+export default function DestinationScreen({ destination, result, onReset }: DestinationScreenProps) {
   const { lineName, lineColor, direction } = result;
 
   return (

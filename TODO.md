@@ -2,15 +2,14 @@
 
 ## Phase 0. TypeScript 전환
 
-- [ ] TypeScript 의존성 추가
-- [ ] `tsconfig.json` 구성
-- [ ] `src/main.jsx`를 `src/main.tsx`로 전환
-- [ ] `src/App.jsx`를 `src/App.tsx`로 전환
-- [ ] 컴포넌트 파일을 `.tsx`로 전환
-- [ ] 유틸 파일을 `.ts`로 전환
-- [ ] `Station`, `Line`, `Direction` 타입 초안 작성
-- [ ] Phase 5를 대비해 `Trip`, `TripPhoto`, `TripVisibility` 타입 초안 작성
-- [ ] `npm run build` 통과 확인
+- [x] TypeScript 의존성 추가
+- [x] `tsconfig.json` 구성
+- [x] `src/main.jsx`를 `src/main.tsx`로 전환
+- [x] `src/App.jsx`를 `src/App.tsx`로 전환
+- [x] 컴포넌트 파일을 `.tsx`로 전환
+- [x] 유틸 파일을 `.ts`로 전환
+- [x] `Station`, `Line`, `Direction` 타입 초안 작성
+- [x] `npm run build` 통과 확인
 
 ## Phase 1. MVP 안정화
 
